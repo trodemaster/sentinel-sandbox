@@ -7,6 +7,10 @@ map = {
     "AccountID": "adobefunkyservice223",
     "AccountKEY": "a340b6a946bbdw4515r884dy12b8a484b518",
 }
+
+// Unclear on how to import the json data from the test in a way that will match a vault kv-v2 write
+//map = import.mock.json
+
 print(map.Owner)
 
 main = rule {

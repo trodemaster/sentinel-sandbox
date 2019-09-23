@@ -11,7 +11,7 @@
 // Unclear on how to import the json data from the test in a way that will match a vault kv-v2 write
 //map = import.mock.json
 
-map = request.data.data
+map = request.data.json
 print(map.Owner)
 
 main = rule {

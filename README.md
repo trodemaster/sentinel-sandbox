@@ -1,15 +1,13 @@
 
-# Construct a sentinel policy that validated the contents of a json payload written to a kv-v2 secrets store
- Build out multiple tests that pass json data to the sentinel simulator for validation against the EGP vault policy. The sentinel policy should be directly usable in vault without modification.
+# Construct a sentinel policy that validates the contents of a structured data payload written to a vault kv-v2 secrets store
+ Build out multiple tests that pass structured data data to the sentinel simulator for validation against the EGP vault policy. The sentinel policy should be directly usable in vault without modification.
 
-example.json from this repo is the test payload and would be written to vault like this. 
+Cli example of writing the structured data payload that should be validated by sentinel policy.
 
-Cli example of writing the json payload that should be validated by sentinel policy.
-`vault kv put kv-v2/example @example.json`
+`vault kv put kv-v2/example @token_metadata_good_example.json`
 
-Curl example of writing the json payload that should be validated by sentinel policy.
-`curl -X PUT -H "X-Vault-Token: $(vault print token)" -d '{"data":{"AccountID":"adobeitcfunkyservice223","AccountKEY":"a340b6a946bbdw4515r884dy12b8a484b518","Contact":"username@adobe.com","Expiration":"2020-08-16 09:52:05","Owner":"Blake Garner","TeamName":"Internal Cloud","cred_description":"Funky Service from external vendor"},"options":{}}' https://testvault.in.adobe.com:8200/v1/kv-v2/data/example`
+The sentinel policy itself is in `token-metadata.sentinel`
 
-Sentinel code examples
-https://github.com/hashicorp/vault-guides/tree/master/governance/sentinel
+Sentinel simulator test for good data is `test/token-metadata/good_owner.json`
 
+The script `pushpolicy.sh` steps through the whole process. 

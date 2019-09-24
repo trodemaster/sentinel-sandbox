@@ -7,7 +7,7 @@
             "data": {
                 "data": {
                     "cred_description": "Funky Service from external vendor",
-                    "Owner": "Blake Garner",
+                    "Owner": "298374293478",
                     "Expiration": "2020-08-16 09:52:05",
                     "TeamName": "IS",
                     "Contact": "username@adobe.com",
@@ -17,5 +17,8 @@
                 }
             }
         }
+    },
+    "test": {
+        "main": false
     }
 }

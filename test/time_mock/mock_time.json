@@ -1,0 +1,25 @@
+{
+    "mock": {
+        "time": {
+            "now": {
+                "day": 28,
+                "hour": 0,
+                "minute": 0,
+                "month": 8,
+                "month_name": "August",
+                "rfc3339": "3030-08-28T00:00:00Z",
+                "second": 0,
+                "unix": 33471014400,
+                "unix_nano": -3422473747419103232,
+                "weekday": 6,
+                "weekday_name": "Saturday",
+                "year": 3030,
+                "zone": 0,
+                "zone_string": "+00:00"
+            }
+        }
+    },
+    "test": {
+        "main": true
+    }
+}

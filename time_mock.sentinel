@@ -1,0 +1,18 @@
+import "time"
+
+time_now = time.now
+print("   Time Now :",time_now.rfc3339)
+
+// t = time.load("a_mock_timestamp")
+time_loaded = time.load("3030-08-28T00:00:00Z")
+print("Time Loaded :",time_loaded.rfc3339)
+
+if time_now.rfc3339 matches time_loaded.rfc3339 {
+    matching_times = true
+} else {
+    matching_times = false
+}
+
+main = rule {
+  matching_times
+}

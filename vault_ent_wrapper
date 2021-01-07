@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#set -euo pipefail
 IFS=$'\n\t'
 shopt -s nullglob nocaseglob
 
-timeout 29m /Users/bgarner/code/sentinel-sandbox/vault server -config=/Users/bgarner/code/sentinel-sandbox/vault.hcl &
-source /Users/bgarner/code/sentinel-sandbox/vault_secrets
+SCRIPT=$(realpath -s $0)
+SCRIPTPATH=$(dirname $SCRIPT)
+
+(timeout 29m ${SCRIPTPATH}/vault server -config=${SCRIPTPATH}/vault.hcl) &
+source ${SCRIPTPATH}/vault_secrets
+echo "vault started"
+
+#vault operator init -key-shares=1 -key-threshold=1
+
+vault status -format=json | /opt/local/bin/jq .
 until vault operator unseal $VAULT_UNSEAL_KEY
 do
   echo "Waitibng for vault to be ready..."

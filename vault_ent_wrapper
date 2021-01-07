@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+shopt -s nullglob nocaseglob
+
+timeout 29m /Users/bgarner/code/sentinel-sandbox/vault server -config=/Users/bgarner/code/sentinel-sandbox/vault.hcl &
+source /Users/bgarner/code/sentinel-sandbox/vault_secrets
+until vault operator unseal $VAULT_UNSEAL_KEY
+do
+  echo "Waitibng for vault to be ready..."
+  sleep 1
+done
+
+
+wait
+

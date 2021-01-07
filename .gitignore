@@ -9,3 +9,4 @@
 *.tfvars
 .DS_store
 vault_secrets
+vault

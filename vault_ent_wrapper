@@ -6,6 +6,13 @@ shopt -s nullglob nocaseglob
 SCRIPT=$(realpath -s $0)
 SCRIPTPATH=$(dirname $SCRIPT)
 
+# kill any existing running vault
+VAULT_PID=$(ps -p $(pgrep vault) | grep sentinel-sandbox | grep -o -e '^[0-9]*' | tr -d '\n')
+if [ -n ${VAULT_PID} ]; then
+  kill $VAULT_PID
+  wait $VAULT_PID
+fi
+
 (timeout 29m ${SCRIPTPATH}/vault server -config=${SCRIPTPATH}/vault.hcl) &
 source ${SCRIPTPATH}/vault_secrets
 echo "vault started"
@@ -13,12 +20,9 @@ echo "vault started"
 #vault operator init -key-shares=1 -key-threshold=1
 
 vault status -format=json | /opt/local/bin/jq .
-until vault operator unseal $VAULT_UNSEAL_KEY
-do
-  echo "Waitibng for vault to be ready..."
+until vault operator unseal $VAULT_UNSEAL_KEY; do
+  echo "Waiting for vault to be ready..."
   sleep 1
 done
 
-
 wait
-

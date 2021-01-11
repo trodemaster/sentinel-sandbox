@@ -5,22 +5,12 @@
 
 import "strings"
 
-auth_whitelist_oidc = rule {
-  strings.has_prefix(request.path, "auth/oidc")
-}
+auth_allowlist = ["auth/oidc","auth/token","auth/approle"]
 
-auth_whitelist_token = rule {
-  strings.has_prefix(request.path, "auth/token")
+auth_allowlist_check = rule {
+  request.path in auth_allowlist
 }
-
-auth_whitelist_approle = rule {
-  strings.has_prefix(request.path, "auth/approle")
-}
-
-  if not auth_whitelist_oidc or auth_whitelist_token or auth_whitelist_approle {
-  print("DOEs this even show up?")
-  }
 
 main = rule when strings.has_prefix(request.path, "auth/"){
-auth_whitelist_oidc or auth_whitelist_token or auth_whitelist_approle
+auth_allowlist_check
 }

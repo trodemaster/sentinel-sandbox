@@ -6,15 +6,18 @@ shopt -s nullglob nocaseglob
 SCRIPT=$(realpath -s $0)
 SCRIPTPATH=$(dirname $SCRIPT)
 
-# kill any existing running vault
-VAULT_PID=$(ps -p $(pgrep vault) | grep sentinel-sandbox | grep -o -e '^[0-9]*' | tr -d '\n')
-if [ -n ${VAULT_PID} ]; then
-  kill $VAULT_PID
-  wait $VAULT_PID
+# kill any existing running vault specifict to sentinel-sandbox
+if (pgrep vault > /dev/null 2>&1); then
+  VAULT_PID=$(ps -p $(pgrep vault) | grep sentinel-sandbox | grep -o -e '^[0-9]*' | tr -d '\n')
+  if [ -n ${VAULT_PID} ]; then
+    kill $VAULT_PID
+    wait $VAULT_PID
+  fi
 fi
 
 (timeout 29m ${SCRIPTPATH}/vault server -config=${SCRIPTPATH}/vault.hcl) &
 source ${SCRIPTPATH}/vault_secrets
+unset VAULT_NAMESPACE
 echo "vault started"
 
 #vault operator init -key-shares=1 -key-threshold=1

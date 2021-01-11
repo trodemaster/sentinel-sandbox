@@ -1,0 +1,26 @@
+# allowlist for the following auth methods
+# oidc
+# token
+# approle
+
+import "strings"
+
+auth_whitelist_oidc = rule {
+  strings.has_prefix(request.path, "auth/oidc")
+}
+
+auth_whitelist_token = rule {
+  strings.has_prefix(request.path, "auth/token")
+}
+
+auth_whitelist_approle = rule {
+  strings.has_prefix(request.path, "auth/approle")
+}
+
+  if not auth_whitelist_oidc or auth_whitelist_token or auth_whitelist_approle {
+  print("DOEs this even show up?")
+  }
+
+main = rule when strings.has_prefix(request.path, "auth/"){
+auth_whitelist_oidc or auth_whitelist_token or auth_whitelist_approle
+}

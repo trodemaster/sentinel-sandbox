@@ -11,3 +11,8 @@ The sentinel policy itself is in `token-metadata.sentinel`
 Sentinel simulator test for good data is `test/token-metadata/good_owner.json`
 
 The script `pushpolicy.sh` steps through the whole process. 
+
+
+# notes
+https://discuss.hashicorp.com/t/validating-a-user-provided-date-with-sentinel/3619/10
+

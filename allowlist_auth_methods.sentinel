@@ -5,12 +5,35 @@
 
 import "strings"
 
-auth_allowlist = ["auth/oidc","auth/token","auth/approle"]
-
-auth_allowlist_check = rule {
-  request.path in auth_allowlist
+if strings.has_prefix(request.path, "auth/oidc") {
+  auth_allowlist_oidc = true
+} else {
+  auth_allowlist_oidc = false
 }
 
-main = rule when strings.has_prefix(request.path, "auth/"){
-auth_allowlist_check
+if strings.has_prefix(request.path, "auth/token") {
+  auth_allowlist_token = true
+} else {
+  auth_allowlist_token = false
+}
+
+if strings.has_prefix(request.path, "auth/approle") {
+  auth_allowlist_approle = true
+} else {
+  auth_allowlist_approle = false
+}
+
+policy_match = func() {
+  if auth_allowlist_oidc or auth_allowlist_token or auth_allowlist_approle {
+  print("auth engine is from the allowlist")
+  return true
+  } else {
+  error("Access Denied for the following auth endpoint\n",request.path ,"See this wiki for details https://wiki.corp.adobe.com/x/s8CGhg")
+  return false
+  }
+}
+
+
+main = rule {
+policy_match()
 }
